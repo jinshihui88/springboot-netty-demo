@@ -53,7 +53,7 @@ public class NettyTestClient {
                                 @Override
                                 protected void channelRead0(
                                         ChannelHandlerContext ctx, String msg) {
-                                    System.out.println("服务端响应：" + msg);
+                                    System.out.println("[客户端] 收到服务端响应：" + msg);
                                     ctx.close();
                                 }
                             });
@@ -61,6 +61,8 @@ public class NettyTestClient {
                 });
 
             Channel channel = bootstrap.connect(host, port).sync().channel();
+            System.out.println("[客户端] 已连接服务端 " + host + ":" + port);
+            System.out.println("[客户端] 发送：" + message);
             channel.writeAndFlush(message).sync();
             channel.closeFuture().sync();
         } finally {
